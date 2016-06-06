@@ -8,6 +8,6 @@ defmodule FDGTest do
     assert Map.fetch!(FDG.parse("(A,B,C,G,H)[G->A,H->A,H->B]"), :deps) == ["G->A", "H->A", "H->B"]
   end
   test "input parsing can handle features across multiple specs" do
-    assert Map.fetch!(FDG.parse("(A,B,C,G,H)[G->A,H->A,H->B]\n(D,E,F,I,J)[I->D,I->E,J->F,J->I,I->H]"), :features) == ["A", "B", "C", "G", "H"]
+    assert Map.fetch!(FDG.parse("(A,B,C,G,H)[G->A,H->A,H->B]\n(D,E,F,I,J)[I->D,I->E,J->F,J->I,I->H]"), :features) == ["A", "B", "C", "G", "H", "D", "E", "F", "I", "J"]
   end
 end
