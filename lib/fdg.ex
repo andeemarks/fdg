@@ -1,4 +1,5 @@
 defmodule FDG do
+  @input_spec_re "~r/(?<features>\(.*\))(?<deps>\[.*\])/"
   def parse(input) do
     spec_elements = Regex.named_captures(~r/(?<features>\(.*\))(?<deps>\[.*\])/, "(A,B,C,G,H)[G->A,H->A,H->B]", ungreedy: true)
     feature_spec = Map.fetch!(spec_elements, "features")
