@@ -16,6 +16,8 @@ defmodule FDG do
     if (captured_deps) do
       deps_spec = Map.fetch!(captured_deps, "deps")
       deps = String.split(String.strip(String.strip(deps_spec, ?]), ?[), ",")
+    else
+      []
     end
 
   end
@@ -23,17 +25,13 @@ defmodule FDG do
   def parse(input) do
     features = parse_features(input)
     deps = parse_deps(input)
-    if (deps) do
-      features_in_deps = MapSet.new(Enum.uniq(Enum.flat_map(deps, fn (x) -> String.split(x, "->") end)))
-      # Logger.info(features)
-      all_deps_exist = MapSet.subset?(features_in_deps, MapSet.new(features))
-      if (all_deps_exist) do
-        %{features: features, deps: deps}
-      else
-        raise RuntimeError, "Found dependency pair referring to non-existant features"
-      end
+    features_in_deps = MapSet.new(Enum.uniq(Enum.flat_map(deps, fn (x) -> String.split(x, "->") end)))
+    # Logger.info(features)
+    all_deps_exist = MapSet.subset?(features_in_deps, MapSet.new(features))
+    if (all_deps_exist) do
+      %{features: features, deps: deps}
     else
-      %{features: features, deps: nil}
+      raise RuntimeError, "Found dependency pair referring to non-existant features"
     end
   end
 end
